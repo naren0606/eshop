@@ -1,18 +1,19 @@
 import './App.css';
 import Navbar from './component/Navbar';
-import Home from './component/Home';
-import Product from './component/Product';
-
-
+import ProductsPage from './component/Product';
+import ProductDetailPage from './component/ProductDetails';
+import CreateOrderPage from './component/Order';
+import Home from './component/Home'
 
 function App() {
   return (
-    <>
-    <Navbar/>
-    <Home/>
-    <Product/>
-
-    </>
+    <div className="app-container" style={{ overflow: 'hidden' }}>
+      <Navbar />
+     {/* <Home/> */}
+      {/* <ProductsPage /> */}
+        <ProductDetailPage />
+     {/*} <CreateOrderPage /> */}
+    </div>
   );
 }
 
