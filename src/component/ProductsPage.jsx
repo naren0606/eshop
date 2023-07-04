@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
+import { Outlet, Link } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import ToggleButton from '@mui/material/ToggleButton';
-import StarIcon from '@mui/icons-material/Star';
 import Button from '@mui/material/Button';
 import Skeleton from 'react-loading-skeleton';
-import { products } from './productData';
 import productData from './productData';
 
 import '../Product.css';
@@ -148,21 +147,11 @@ const ProductsPage = () => {
           <Box p={2} className='product-details'>
             <h4 className="product-title">{product.name}...</h4>
             <p className="product-price"><b>₹{product.price}</b></p>
-            <div className="product-rating">
-              {Array(5)
-                .fill()
-                .map((_, index) => (
-                  <StarIcon
-                    key={index}
-                    className={index < product.rating ? 'filled' : 'unfilled'}
-                  />
-                ))}
-              <p className="product-rating-figure">{product.rating.toFixed(1)}</p>
-            </div>
-
+            <Link to={`/product-details/${product.id}`}>
             <Button variant="contained" className="buyNow">
               Buy Now
             </Button>
+            </Link>
           </Box>
         </Card>
       </Grid>

@@ -69,10 +69,10 @@ const CreateOrderPage = () => {
     return total.toFixed(0); // Round off to 0 decimal places
   };
 
-  const steps = ['Shipping Details', 'Confirm Order'];
+  const steps = ['Cart', 'Shipping Details', 'Confirm Order'];
 
   const handleNext = () => {
-    if (activeStep === 0) {
+    if (activeStep === 1) {
       // Validate the address fields
       if (
         !address.firstName ||
@@ -146,11 +146,11 @@ const CreateOrderPage = () => {
     // Update the cart items, address, and personal details
     // You can replace the dummy data above with the actual data received from API
 
-    alert("Your order have been submitted");
+    alert("Order placed successfully!");
   };
 
   const handleChange = (field, value) => {
-    if (activeStep === 0) {
+    if (activeStep === 1) {
       setAddress((prevaddress) => ({
         ...prevaddress,
         [field]: value,
@@ -170,7 +170,7 @@ const CreateOrderPage = () => {
         ))}
       </Stepper>
 
-      {activeStep === 0 && (
+      {activeStep === 1 && (
         <div style={{ padding: '20px' }}>
           <Typography variant="h5">Shipping Details</Typography>
           <hr className='divider'/>
@@ -310,7 +310,7 @@ const CreateOrderPage = () => {
         </div>
       )}
 
-      {activeStep === 1 && (
+      {activeStep === 2 && (
         <div style={{ padding: '20px' }}>
           <Typography variant="h6">Confirm Order</Typography>
           <Typography variant="body1">Please review your order details.</Typography>
@@ -320,7 +320,6 @@ const CreateOrderPage = () => {
           <Typography variant="subtitle1">Cart Items:</Typography>
       {cartItems.map((item) => (
         <div key={item.id }>
-          <img src='../electronics.jpg' alt={item.title} />
           <Typography>{item.title}</Typography>
           <Typography>Price: {item.price}</Typography>
           <Typography>Quantity:</Typography>
@@ -353,12 +352,12 @@ const CreateOrderPage = () => {
       )}
 
       <div>
-        {activeStep !== 1 && (
+        {activeStep !== 2 && (
           <Button variant="contained" color="primary" className='save-btn' onClick={handleNext}>
-            Save Details
+            Next
           </Button>
         )}
-        {activeStep === 1 && (
+        {activeStep === 2 && (
           <Button variant="contained" color="primary" className='save-btn'  onClick={handleConfirmOrder}>
             Confirm Order
           </Button>

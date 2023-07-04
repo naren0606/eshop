@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,16 +12,29 @@ import HomeIcon from '@mui/icons-material/Home';
 import LoginIcon from '@mui/icons-material/Login';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import '../common.css';
+import {useNavigate} from "react-router-dom"
 
-const Navbar = ({ isLoggedIn =true, isAdmin }) => {
 
+const Navbar = ({isAdmin }) => {
   const [openModal, setOpenModal] = useState(false);
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
-  const [name, setName] = useState('');
+  const [firstname, setFirstName] = useState('');
+  const [lastname, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loggedIn) {
+      navigate('/');
+    }
+  }, [loggedIn, navigate]);
+
+  
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -52,48 +66,66 @@ const Navbar = ({ isLoggedIn =true, isAdmin }) => {
     }
   };
 
+
+  const handleLogin = () => {
+    // Logic for handling login
+    setLoggedIn(true);
+    handleCloseModal();
+  };
+
+  const handleLogout = () => {
+    // Logic for handling logout
+    setLoggedIn(false);
+  };
+
   return (
-    <AppBar position="static" color="primary" style={{ zIndex: 999, boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)', backgroundColor: '#232F3E' }}>
+    <AppBar position="static" color="primary" style={{ zIndex: 999, boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)', backgroundColor: '#3f51b5' }}>
       <Toolbar>
         <Typography variant="h5" sx={{ flexGrow: 1 }}>
           <b>upGrad</b>
         </Typography>
 
-        {(isAdmin && isLoggedIn) && (
-          <React.Fragment>
-            <div>
-              <Button color="inherit">
-                <HomeIcon fontSize='medium' className='icon btn' />Home
-              </Button>
-              <Button color="inherit" className='btn'>Add Products</Button>
-            </div>
-          </React.Fragment>
+        {(isAdmin && loggedIn) && (
+           <React.Fragment>
+           <div>
+            <Link to="/">
+             <Button color="inherit" className='btn'>
+               <HomeIcon fontSize='medium' className='btn' />
+               Home
+             </Button>
+             </Link>
+             <Link to="/addproducts">
+             <Button  color="inherit" className='btn'>Add Products</Button>
+             </Link>
+           </div>
+         </React.Fragment>
         )}
 
         <Stack direction="row" spacing={2} alignItems="center" sx={{ flexGrow: 1 }}>
-          {!isLoggedIn || (!isAdmin && isLoggedIn) && (
+          {!loggedIn || (!isAdmin && loggedIn) && (
             <React.Fragment>
-              <Button color="inherit" style={{ border: 'none', margin: '5px' }} className='btn'>
-                <HomeIcon fontSize='medium' className='icon' />Home
-              </Button>
-              <Button color="inherit" className='btn'>
-                Products
-              </Button>
-              <div className='searchBar'>
-                <input
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                  className='search-input'
-                />
-                <SearchIcon fontSize='large' className='search-icon' />
-              </div>
-            </React.Fragment>
+            <Link to="/">
+             <Button color="inherit" className='btn' style={{color:'#fff'}}>
+               <HomeIcon fontSize='medium' className='icon' />
+               Home
+             </Button>
+             </Link>
+           
+            <div className='searchBar'>
+              <input
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                className='search-input'
+              />
+              <SearchIcon fontSize='medium' className='search-icon' />
+            </div>
+          </React.Fragment>
           )}
         </Stack>
 
         <Stack direction="row" spacing={2} alignItems="center">
-          {!isLoggedIn ? (
+          {!loggedIn ? (
             <React.Fragment>
               {/* Login Button */}
               <Button color="inherit" className='btn' onClick={handleOpenModal}>
@@ -116,7 +148,7 @@ const Navbar = ({ isLoggedIn =true, isAdmin }) => {
                   <hr className='divider' />
                   <TextField label="Username" fullWidth className='modal-input' />
                   <TextField label="Password" fullWidth type="password" className='modal-input' />
-                  <Button variant="contained" fullWidth sx={{ mt: 2 }} className='modal-btn'>
+                  <Button variant="contained" fullWidth sx={{ mt: 2 }} className='modal-btn' onClick={() => {handleLogin(); navigate("/products");}}>
                     Login
                   </Button>
                   <Typography sx={{ mt: 2 }}>
@@ -150,13 +182,14 @@ const Navbar = ({ isLoggedIn =true, isAdmin }) => {
                     Register
                   </Typography>
                   <hr className='divider' />
-                  <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} fullWidth className='register-modal-input' />
+                  <TextField label="First Name" value={firstname} onChange={(e) => setFirstName(e.target.value)} fullWidth className='register-modal-input' />
+                  <TextField label="Last Name" value={lastname} onChange={(e) => setLastName(e.target.value)} fullWidth className='register-modal-input' />
                   <TextField label="Username" value={username} onChange={(e) => setUsername(e.target.value)} fullWidth className='register-modal-input' />
                   <TextField label="Email" value={email} onChange={(e) => setEmail(e.target.value)} fullWidth className='register-modal-input' />
                   <TextField label="Password" value={password} onChange={(e) => setPassword(e.target.value)} fullWidth type="password" className='register-modal-input' inputProps={{ minLength: 8, pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$' }} />
                   <TextField label="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} fullWidth type="password" className='register-modal-input' />
                   <Button variant="contained" sx={{ mt: 2 }} fullWidth onClick={handleRegister}>
-                    Register
+                    Sign Up
                   </Button>
                   <Typography sx={{ mt: 2 }}>
                     Already have an account?{' '}
@@ -170,12 +203,14 @@ const Navbar = ({ isLoggedIn =true, isAdmin }) => {
           ) : (
             <React.Fragment>
               {!isAdmin && (
-                <Button color="inherit" className='btn'>
+                <Link to="/cart">
+                <Button color="inherit" className='btn' style={{color:'#fff'}}>
                   <ShoppingCartIcon fontSize='medium' className='icon' />
                   Cart (0)
                 </Button>
+                </Link>
               )}
-              <Button color="inherit" className='btn'>
+              <Button color="inherit" className='btn' onClick={() => {handleLogout(); navigate("/");}}>
                 <LogoutIcon fontSize='medium' className='icon' />
                 Logout
               </Button>

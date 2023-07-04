@@ -159,8 +159,8 @@
 .place-order-btn {
   width: 100% !important;
   background: #232F3E !important;
+  color:#fff !important;
 }
-
 
 .bordered-table {
   border-collapse: collapse;
