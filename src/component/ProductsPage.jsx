@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Skeleton from 'react-loading-skeleton';
 import productData from './productData';
 
-import '../Product.css';
+import '../ProductsPage.css';
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);

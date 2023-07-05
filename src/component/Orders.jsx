@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Stepper, Step, StepLabel, Button, Typography, TextField, MenuItem } from '@mui/material';
 
+
 import '../Order.css';
 
 const CreateOrderPage = () => {
   const [activeStep, setActiveStep] = useState(0);
 
+ 
+
+ 
   const [address, setAddress] = useState({
     firstName: '',
     lastName: '',
@@ -21,53 +25,7 @@ const CreateOrderPage = () => {
     pincode: '',
   });
 
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      title: 'Product 1',
-      price: 999,
-      quantity: 2,
-    },
-    {
-      id: 2,
-      title: 'Product 2',
-      price: 459,
-      quantity: 1,
-    },
-  ]);
 
-  const handleQuantityChange = (itemId, quantity) => {
-    // Update the quantity of the specified item in the cart
-    const updatedCartItems = cartItems.map((item) => {
-      if (item.id === itemId) {
-        return { ...item, quantity: quantity };
-      }
-      return item;
-    });
-    // Update the cart items state
-    setCartItems(updatedCartItems);
-  };
-  
-  const [totalCartValue, setTotalCartValue] = useState(0);
-  useEffect(() => {
-    const calculateTotalCartValue = () => {
-      let total = 0;
-      for (const item of cartItems) {
-        total += item.price * item.quantity;
-      }
-      setTotalCartValue(total);
-    };
-  
-    calculateTotalCartValue();
-  }, [cartItems]);
-  
-  const getTotalCartValue = () => {
-    let total = 0;
-    for (const item of cartItems) {
-      total += item.price * item.quantity;
-    }
-    return total.toFixed(0); // Round off to 0 decimal places
-  };
 
   const steps = ['Cart', 'Shipping Details', 'Confirm Order'];
 
@@ -124,29 +82,10 @@ const CreateOrderPage = () => {
   };
 
   const handleConfirmOrder = () => {
-    // Perform actions to create the order and add the address
-    // You can make API calls to /orders and /addresses endpoints
-
+    // Perform actions to create the order and add the product to the cart
+    // ...
     // Display confirmation message
-    setCartItems([
-      {
-        id: 1,
-        title: 'Product 1',
-        price: 999,
-        quantity: 2,
-      },
-      {
-        id: 2,
-        title: 'Product 2',
-        price: 459,
-        quantity: 1,
-      },
-    ]);
-
-    // Update the cart items, address, and personal details
-    // You can replace the dummy data above with the actual data received from API
-
-    alert("Order placed successfully!");
+    alert('Order placed successfully!');
   };
 
   const handleChange = (field, value) => {
@@ -169,6 +108,7 @@ const CreateOrderPage = () => {
           </Step>
         ))}
       </Stepper>
+
 
       {activeStep === 1 && (
         <div style={{ padding: '20px' }}>
@@ -314,28 +254,6 @@ const CreateOrderPage = () => {
         <div style={{ padding: '20px' }}>
           <Typography variant="h6">Confirm Order</Typography>
           <Typography variant="body1">Please review your order details.</Typography>
-          <div>
-            <hr className='divider'/>
-
-          <Typography variant="subtitle1">Cart Items:</Typography>
-      {cartItems.map((item) => (
-        <div key={item.id }>
-          <Typography>{item.title}</Typography>
-          <Typography>Price: {item.price}</Typography>
-          <Typography>Quantity:</Typography>
-          <TextField
-            type="number"
-            value={item.quantity}
-            onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-            inputProps={{ min: 1 }} // Optionally set a minimum value for the quantity
-          />
-        </div>
-      ))}
-<Typography>Total Cart Value:</Typography>
-<Typography>{getTotalCartValue()}</Typography>
-
-
-          </div>
           <div>
             <Typography variant="subtitle1">Shipping Address:</Typography>
             <Typography>

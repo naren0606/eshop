@@ -9,24 +9,40 @@ import Cart from "./component/Cart";
 import CreateOrderPage from "./component/Orders";
 
 export default function App() {
-  const [cart, setCart] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
-  const handleAddToCart = (productDetails) => {
-    setCart([...cart, productDetails]);
+  const handleAddToCart = (item) => {
+    setCartItems((prevCartItems) => [...prevCartItems, item]);
   };
+
+  const handleQuantityChange = (itemId, quantity) => {
+    const updatedCart = cartItems.map((item) => {
+      if (item.id === itemId) {
+        return { ...item, quantity: parseInt(quantity, 10) };
+      }
+      return item;
+    });
+    setCartItems(updatedCart);
+  };
+
   return (
     <div className="app">
-       <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<ProductsPage/>} />
-        <Route path="/cart" element={<Cart cart={cart} />} />
-        <Route path="/product-details/:productId" element={<ProductDetails addToCart={handleAddToCart} />} />
-        <Route path="/place-order" element={<CreateOrderPage />} />
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route
+            path="/cart"
+            element={<Cart cart={cartItems} onUpdateQuantity={handleQuantityChange} />}
+          />
+          <Route
+            path="/product-details/:productId"
+            element={<ProductDetails addToCart={handleAddToCart} />}
+          />
+          <Route path="/place-order" element={<CreateOrderPage />} />
+        </Routes>
+      </BrowserRouter>
     </div>
-   
   );
 }

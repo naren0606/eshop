@@ -94,6 +94,9 @@ const Navbar = ({isAdmin }) => {
                Home
              </Button>
              </Link>
+             <Link to="/products">
+             <Button  color="inherit" className='btn'>Products</Button>
+             </Link>
              <Link to="/addproducts">
              <Button  color="inherit" className='btn'>Add Products</Button>
              </Link>
@@ -109,6 +112,9 @@ const Navbar = ({isAdmin }) => {
                <HomeIcon fontSize='medium' className='icon' />
                Home
              </Button>
+             </Link>
+             <Link to="/products">
+             <Button  color="inherit" className='btn' style={{color:'#fff'}}>Products</Button>
              </Link>
            
             <div className='searchBar'>

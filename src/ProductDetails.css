@@ -1,3 +1,4 @@
+
 .product-detail-container {
   margin-top: 25px;
   display: flex;
@@ -9,48 +10,21 @@
   justify-content: space-between;
 }
 
-.image-gallery {
-  position: relative;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
-
-.gallery-image {
-  width: 70px;
-  height: 80px;
-  object-fit: fill !important;
-  background-color: #fff !important;
-  padding: 1px !important;
-  cursor: pointer;
-  display: flex;
-  border-radius: 5px;
-  object-fit: contain;
-  box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.8);
-  transition: box-shadow 0.2s, scale 0.2s;
-}
-
-.gallery-image.selected {
-  box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.8);
-  scale: 0.8;
-}
-
-.selected-image {
-  height: 400px;
-  width: 330px;
-  object-fit: contain;
-}
-
 .images {
   display: flex;
-  width: 100% !important;
+  width: 480px !important;
   height: 510px !important;
+  
 }
 
-.gallery-style {
-  display: flex !important;
-  flex-direction: column !important;
+.image{
+ scale:0.85;
+ transition: transform 0.3s ease;
+}
+
+.image:hover{
+  transform: scale(0.8);
+  cursor: pointer;
 }
 
 .left-side {
@@ -59,19 +33,14 @@
   margin-left: 20px !important;
   margin-right: 10px !important;
 }
-
 .right-side {}
 
-.gallery {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: #232F3E;
-}
+
 
 .product-description p {
   font-size: 13px !important;
-  margin-bottom: 5px;
+  margin: 2px 0px 5px 0px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .divider {
@@ -82,94 +51,28 @@
   height: 500px !important;
 }
 
-.features {
-  padding-left: 0 !important;
-}
-
-.features ul {
-  list-style-type: none !important;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding-left: 0 !important;
-}
-
-.features ul li {
-  width: 80px;
-  margin: 10px;
-  text-align: center;
-}
-
-.features p {
-  font-size: 2px;
-}
-
-.features .icon {
-  color: #232F3E !important;
-  padding: 10px;
-  border-radius: 50%;
-  box-shadow: 0px 0px 4px rgba(99, 99, 99, .5);
-  background: #fff;
-  height: 25px;
-  width: 25px;
-  cursor: pointer;
-  transition: box-shadow 0.3s, color 0.3s, background 0.3s;
-}
-
-.features .icon:hover {
-  box-shadow: 0px 0px 12px rgba(99, 99, 99, .5);
-  color: #fff !important;
-  background: #232F3E;
-}
-
 .addTocart {
   background: #232F3E;
   padding: 10px 15px;
   margin: 0 !important;
-  width: 100%;
   display: flex;
   justify-content: center;
   color: #fff;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.8);
 }
 
-.product-info p {
-  color: blue !important;
-  cursor: pointer !important;
+.note {
   font-size: 10px;
   margin: 5px 0px 15px 0px;
-}
-
-.size {
-  padding: 5px 10px !important;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif !important;
 }
 
 .price {
-  display: flex;
-  font-weight: bold;
-}
-
-.rupees-symbol {
-  font-size: 15px;
-  margin-top: 2px;
-  font-weight: lighter;
-  margin-right: 1px;
+  padding:0;  
 }
 
 .place-order-btn {
   width: 100% !important;
   background: #232F3E !important;
   color:#fff !important;
-}
-
-.bordered-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.bordered-table th,
-.bordered-table td {
-  border: 1px solid black;
-  padding: 8px;
-  text-align: left;
 }
