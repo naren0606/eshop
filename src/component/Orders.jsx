@@ -1,13 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { Stepper, Step, StepLabel, Button, Typography, TextField, MenuItem } from '@mui/material';
-
+import Cart from './Cart';
 
 import '../Order.css';
+import Addresses from './address';
 
 const CreateOrderPage = () => {
   const [activeStep, setActiveStep] = useState(0);
 
- 
+  const [cartItems, setCartItems] = useState([]);
+
+  const handleAddToCart = (item) => {
+    setCartItems((prevCartItems) => [...prevCartItems, item]);
+  };
+
+  const deleteItem = (itemId) => {
+    // Find the index of the item to be deleted in the cart array
+    const itemIndex = cartItems.findIndex((item) => item._id === itemId);
+
+    // If the item is found, remove it from the cart
+    if (itemIndex !== -1) {
+      const updatedCart = [...cartItems];
+      updatedCart.splice(itemIndex, 1);
+      setCartItems(updatedCart);
+    }
+  };
+
+  const handleQuantityChange = (itemId, quantity) => {
+    const updatedCart = cartItems.map((item) => {
+      if (item._id === itemId) {
+        return { ...item, quantity: parseInt(quantity, 10) };
+      }
+      return item;
+    });
+    setCartItems(updatedCart);
+  };
 
  
   const [address, setAddress] = useState({
@@ -109,7 +136,9 @@ const CreateOrderPage = () => {
         ))}
       </Stepper>
 
-
+      {activeStep === 0 &&(
+        <Cart cart={cartItems} onUpdateQuantity={handleQuantityChange} onDeleteItem={deleteItem} />
+      )}
       {activeStep === 1 && (
         <div style={{ padding: '20px' }}>
           <Typography variant="h5">Shipping Details</Typography>
@@ -246,6 +275,8 @@ const CreateOrderPage = () => {
             onChange={(e) => handleChange('pincode', e.target.value)}
             required
           />
+
+          <Addresses/>
           </div>
         </div>
       )}

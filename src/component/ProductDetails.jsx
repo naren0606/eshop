@@ -8,7 +8,6 @@ import TextField from '@mui/material/TextField';
 import {useNavigate} from "react-router-dom"
 
 
-import productData from './productData';
 import '../ProductDetails.css';
 
 const ProductDetails = ({ addToCart }) => {
@@ -16,29 +15,40 @@ const ProductDetails = ({ addToCart }) => {
   const [product, setProduct] = useState({});
   const navigate = useNavigate();
 
-
   useEffect(() => {
     // Fetch the product details based on the productId
-    const productDetails = getProductDetails(productId);
-    setProduct(productDetails);
+    fetchProductDetails(productId);
   }, [productId]);
 
+  const fetchProductDetails = async (productId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/v1/products/${productId}`);
+      const productData = await response.json();
+      setProduct(productData);
+    } catch (error) {
+      console.error('Error fetching product details:', error);
+    }
+  };
+
   const handleAddToCart = () => {
+    if (quantity > product.availableItems) {
+      alert('Please select a quantity less than or equal to the available items.');
+      return;
+    }
+  
     const productDetails = {
-      id: productId,
+      _id: productId,
       name: product.name,
       image: product.image,
       price: product.price,
       quantity: quantity,
     };
+  
     addToCart(productDetails);
     alert('Your order is confirmed.');
   };
+  
 
-  const getProductDetails = (productId) => {
-    // Find the product details from the product data using the productId
-    return productData.find((product) => product.id === Number(productId));
-  };
 
   const [quantity, setQuantity] = useState(1);
 
@@ -53,26 +63,33 @@ const ProductDetails = ({ addToCart }) => {
 
   return (
     <div className="product-detail-container" style={{ overflowY: 'auto' }}>
-      <Grid container spacing={2} className="product-grid">
+      <Grid container spacing={1} className="product-grid">
         <Grid item xs={9} md={10} className="left-side">
           <Card className="images">
-              <img src={product.image} alt="{product.name}" width="100%" className="image" />
+              <img src={product.imageURL} alt="{product.name}" width="100%" className="image" />
           </Card>
         </Grid>
         <Grid item xs={6} md={7}>
           <Grid container spacing={2} className="row-container">
             <Grid item xs={8} className="middle-side">
               <Card style={{ height: '510px' }}>
-                <Box sx={{ p: 2 }}>
-                  <h3 style={{ fontSize: '30px' }}>{product.name}</h3>
+                <Box sx={{ p: 3 }}>
+                  <h3 style={{ fontSize: '35px' }}>{product.name}</h3>
                   <hr className="divider" />
                   <span className="price">
-                  <h5 style={{ fontSize: '18px', marginBottom: '5px', marginTop:'5px' }}>Product price:</h5>
-                  <span style={{ fontSize: '25px', marginBottom: '10px' }}>₹{product.price}</span>   
+                  <h5 style={{ fontSize: '20px', marginBottom: '5px', marginTop:'5px' }}>Product Price:</h5>
+                  <h6 style={{ fontSize: '18px' }}>₹{product.price}</h6>   
                   </span>
                   <div className="product-description">
-                    <h5 style={{ fontSize: '18px', margin: '20px 0px 3px 0px' }}>Product Description:</h5>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi nihil laborum, commodi, animi tenetur cum corporis sunt laudantium asperiores, voluptatum consectetur esse omnis aliquam sit officia. Odio illum cum quis ipsa itaque. Aspernatur assumenda nesciunt voluptatem vel ex optio error laboriosam tempore suscipit dignissimos debitis ullam dicta quidem, commodi voluptatibus tenetur similique nostrum eaque. Quaerat eius beatae rerum id alias quo ex maxime debitis sint, dolores nesciunt quae molestias quod voluptate autem doloribus reiciendis cumque voluptas dolorem pariatur deserunt, dignissimos reprehenderit accusantium? Quia non consectetur optio repudiandae consequatur perspiciatis ipsum expedita esse, maiores aliquid ipsam, quos veritatis voluptatum reprehenderit mollitia.</p>
+                  <h5 style={{ fontSize: '20px', margin: '20px 0px 3px 0px' }}>Category :</h5>
+                  <h6 style={{ fontSize: '18px'}}>{product.category}</h6>
+                  <h5 style={{ fontSize: '20px', margin: '20px 0px 3px 0px' }}>Manufacturer :</h5>
+                  <h6 style={{ fontSize: '18px'}}>{product.manufacturer}</h6>
+                  <h5 style={{ fontSize: '20px', margin: '20px 0px 3px 0px' }}>Product Description:</h5>
+                  <h6 style={{ fontSize: '18px'}}>{product.description}</h6>
+                  <h5 style={{ fontSize: '20px', margin: '20px 0px 3px 0px' }}>Available Items:</h5>
+                  <h6 style={{ fontSize: '18px'}}>{product.availableItems}</h6>
+                    
                   </div>
                 </Box>
               </Card>
@@ -89,12 +106,8 @@ const ProductDetails = ({ addToCart }) => {
                         value={quantity}
                         onChange={handleQuantityChange}
                       />
-                      <p style={{ fontSize: '10px', margin: '10px 0px 20px 0px', color: 'blue', fontWeight: 'bold' }}>
-                        Note:
-                        <span className='note' style={{ color: 'black', fontWeight: 'lighter' }}>
-                          Verify quantity before adding the product to the cart
-                        </span>
-                      </p>
+                      
+                      
                     </div>
                     <Button  onClick={() => {handleAddToCart(); navigate("/place-order");}} className="place-order-btn">
         Place Order

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Card, CardContent,Typography,Button } from '@mui/material';
 import '../Cart.css';
 
 const Cart = ({ cart, onUpdateQuantity, onDeleteItem }) => {
@@ -26,39 +25,46 @@ const Cart = ({ cart, onUpdateQuantity, onDeleteItem }) => {
   const handleQuantityChange = (itemId, event) => {
     const quantity = parseInt(event.target.value, 10);
     onUpdateQuantity(itemId, quantity);
+ 
   };
+  
+  const handleDeleteItem = (itemId) => {
+    onDeleteItem(itemId);
+  };
+  
 
   return (
-    <div className='main'>
+    <div className="main">
       {mergedCart.map((item) => (
-        <Card className="cart-card" key={item.id}>
-          <CardMedia className="cart-image" image={item.image} title={item.name} />
-          <CardContent className='card-content'>
+        <Card className="cart-card" key={item._id}>
+          <Card className="cart-image">
+          <img src={item.image} alt={item.name} width="100%" className="image" />
+          </Card>
+          <CardContent className="card-content">
             <Typography variant="h6" component="div">
               {item.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Price: ₹{item.price}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+          </CardContent>
+          <CardContent className='card-content'>
+          <Typography variant="body2" color="text.secondary">
               Quantity:
               <input
                 type="number"
                 value={item.quantity}
-                onChange={(event) => handleQuantityChange(item.id, event)}
+                onChange={(event) => handleQuantityChange(item._id, event)}
                 min={1}
               />
             </Typography>
-            <Typography variant="body2" color="black" align="right">
+            <Typography variant="body2" color="black" align="right" margin='10px auto auto auto'>
               Sub-total: ₹{(item.price * item.quantity).toFixed(2)}
             </Typography>
-            <div className="cart-actions">
-              <DeleteIcon onClick={() => onDeleteItem(item.id)} style={{marginRight:'5px', scale:'0.85'}}/> Remove from cart
-            </div>
+            <Button variant="contained" className='remove-product' onClick={() => handleDeleteItem(item._id)}>Remove product </Button>
           </CardContent>
         </Card>
       ))}
-      <hr/>
       <h3 style={{ margin: '20px 35px' }}>Total Cart Value: ₹ {calculateTotalCartValue()}</h3>
     </div>
   );

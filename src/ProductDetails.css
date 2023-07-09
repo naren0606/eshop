@@ -2,6 +2,7 @@
 .product-detail-container {
   margin-top: 25px;
   display: flex;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .product-grid {
@@ -18,7 +19,7 @@
 }
 
 .image{
- scale:0.85;
+ scale:0.95;
  transition: transform 0.3s ease;
 }
 
@@ -75,4 +76,12 @@
   width: 100% !important;
   background: #232F3E !important;
   color:#fff !important;
+  margin-top: 20px !important;
 }
+
+.product-description h6, .price h6{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+  font-weight: lighter;
+  margin:7px 0px 25px;
+}
+
